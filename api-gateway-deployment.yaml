@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: api-gateway
+  name: api-gateway
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: api-gateway
+    spec:
+      containers:
+      - env:
+        - name: DISCOVERY_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_HOST
+              name: scrumier-config
+        - name: DISCOVERY_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_PORT
+              name: scrumier-config
+        image: ogedik/api-gateway:1.0.0
+        name: api-gateway
+        ports:
+        - containerPort: 8090
+      restartPolicy: Always

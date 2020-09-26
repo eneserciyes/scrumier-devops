@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: authentication
+  name: authentication
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: authentication
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_HOST_NAME
+              name: scrumier-config
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_PASSWORD
+              name: scrumier-secrets
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_PORT
+              name: scrumier-config
+        - name: DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_USERNAME
+              name: scrumier-config
+        - name: DISCOVERY_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_HOST
+              name: scrumier-config
+        - name: DISCOVERY_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_PORT
+              name: scrumier-config
+        image: ogedik/authentication:1.0.0
+        name: authentication
+        ports:
+        - containerPort: 8091
+      restartPolicy: Always

@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: mysql
+  name: mysql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: scrumier
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_PASSWORD
+              name: scrumier-secrets
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_PASSWORD
+              name: scrumier-secrets
+        - name: MYSQL_USER
+          value: mysql-user
+        image: mysql:8
+        args:
+          - "--ignore-db-dir=lost+found" # Todo: Workaround
+        name: mysql
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: scrumier-data-volume
+      restartPolicy: Always
+      volumes:
+      - name: scrumier-data-volume
+        persistentVolumeClaim:
+          claimName: scrumier-data-volume

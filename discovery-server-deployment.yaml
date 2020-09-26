@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: discovery-server
+  name: discovery-server
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: discovery-server
+    spec:
+      containers:
+      - image: ogedik/discovery-server:1.0.0
+        name: discovery-server
+        ports:
+        - containerPort: 8761
+      restartPolicy: Always

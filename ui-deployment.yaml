@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: ui
+  name: ui
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: ui
+    spec:
+      containers:
+      - image: ogedik/scrumier-ui:1.0.0
+        name: ui
+        ports:
+        - containerPort: 3000
+      restartPolicy: Always

@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: integration
+  name: integration
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: integration
+    spec:
+      containers:
+      - env:
+        - name: DISCOVERY_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_HOST
+              name: scrumier-config
+        - name: DISCOVERY_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DISCOVERY_SERVER_PORT
+              name: scrumier-config
+        image: ogedik/integration:1.0.0
+        name: integration
+        ports:
+        - containerPort: 8094
+      restartPolicy: Always
