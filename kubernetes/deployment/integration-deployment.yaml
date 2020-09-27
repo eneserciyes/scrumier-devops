@@ -1,31 +1,56 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: integration
+    app: integration
   name: integration
 spec:
   replicas: 1
-  strategy: {}
+  minReadySeconds: 45
+  selector:
+    matchLabels:
+      app: integration
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        io.kompose.service: integration
+        app: integration
     spec:
       containers:
-      - env:
-        - name: DISCOVERY_SERVER_HOST
-          valueFrom:
-            configMapKeyRef:
-              key: DISCOVERY_SERVER_HOST
-              name: scrumier-config
-        - name: DISCOVERY_SERVER_PORT
-          valueFrom:
-            configMapKeyRef:
-              key: DISCOVERY_SERVER_PORT
-              name: scrumier-config
-        image: ogedik/integration:1.0.0
+      - image: ogedik/integration:1.0.0
+        imagePullPolicy: Always
         name: integration
-        ports:
-        - containerPort: 8094
+        env:
+          - name: DISCOVERY_SERVER_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: DISCOVERY_SERVER_HOST
+                name: scrumier-config
+          - name: DISCOVERY_SERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: DISCOVERY_SERVER_PORT
+                name: scrumier-config
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: integration
+  name: integration
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "8094"
+      port: 8094
+      targetPort: 8094
+  selector:
+    app: integration

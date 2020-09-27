@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  creationTimestamp: null
   labels:
-    io.kompose.service: scrumier-data-volume
-  name: scrumier-data-volume
+    io.kompose.service: scrumier-volume
+  name: scrumier-volume
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi

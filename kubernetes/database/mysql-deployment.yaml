@@ -1,45 +1,61 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: mysql
+    app: mysql
   name: mysql
 spec:
+  selector:
+    matchLabels:
+      app: mysql
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.service: mysql
+        app: mysql
     spec:
       containers:
-      - env:
-        - name: MYSQL_DATABASE
-          value: scrumier
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_PASSWORD
-              name: scrumier-secrets
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_PASSWORD
-              name: scrumier-secrets
-        - name: MYSQL_USER
-          value: mysql-user
-        image: mysql:8
-        args:
-          - "--ignore-db-dir=lost+found" # Todo: Workaround
-        name: mysql
-        ports:
-        - containerPort: 3306
-        volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: scrumier-data-volume
+        - env:
+            - name: MYSQL_DATABASE
+              value: scrumier
+            - name: MYSQL_PASSWORD
+              value: ogedik.112233
+            - name: MYSQL_ROOT_PASSWORD
+              value: ogedik.112233
+            - name: MYSQL_USER
+              value: mysql-user
+          image: mysql:5.7
+          args:
+            - "--ignore-db-dir=lost+found" #CHANGE
+          name: mysql
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: scrumier-volume
       restartPolicy: Always
       volumes:
-      - name: scrumier-data-volume
-        persistentVolumeClaim:
-          claimName: scrumier-data-volume
+        - name: scrumier-volume
+          persistentVolumeClaim:
+            claimName: scrumier-volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.19.0 ()
+  creationTimestamp: null
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  type: ClusterIP
+  ports:
+    - name: "3306"
+      port: 3306
+      targetPort: 3306
+  selector:
+    app: mysql
