@@ -35,6 +35,28 @@ spec:
               configMapKeyRef:
                 key: DISCOVERY_SERVER_PORT
                 name: scrumier-config
+        ports: #change
+          - name: liveness-port
+            containerPort: 8094
+        resources:
+          requests:
+            memory: 512Mi
+          limits:
+            memory: 1024Mi
+        readinessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 5
+          periodSeconds: 10
+          initialDelaySeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 5
+          periodSeconds: 10
+          initialDelaySeconds: 60
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 
