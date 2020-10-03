@@ -69,7 +69,7 @@ metadata:
     app: integration
   name: integration
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: "8094"
       port: 8094

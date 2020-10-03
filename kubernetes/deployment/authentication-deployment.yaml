@@ -64,20 +64,6 @@ spec:
             memory: 512Mi
           limits:
             memory: 1024Mi
-        readinessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
-        livenessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 
@@ -90,7 +76,7 @@ metadata:
     app: authentication
   name: authentication
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: "8091"
       port: 8091
