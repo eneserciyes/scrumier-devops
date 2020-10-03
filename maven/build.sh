@@ -1,4 +1,4 @@
-## Build Script for Jira Time Tracker
+## Build Script for Scrumier
 grn=$'\e[1;32m'
 blu=$'\e[1;34m'
 white=$'\e[0m'
@@ -8,19 +8,23 @@ yellowback=$'\e[43m'
 defaultback=$'\e[49m'
 echo
 echo "$yellowback $blu******************************************************************** $defaultback"
-echo "$yellowback ********************** SCRUMIER LOCAL BULK BUILD *************************** $defaultback"
+echo "$yellowback ********************** SCRUMIER LOCAL BUILD *************************** $defaultback"
 echo "$yellowback ******************************************************************** $blu $defaultback"
 echo
 echo
 echo "$blu > $grn Scrumier build process has been started ..."
 echo
-echo "$blu > $cyn Building version-control ... $white"
+echo "$blu > $cyn Building proxy ... $white"
 echo
-mvn -f ../../version-control/ clean deploy
+mvn -f ../../scrumier-proxy/ clean deploy
 echo
 echo "$blu > $cyn Building commons ... $white"
 echo
 mvn -f ../../commons/ clean deploy
+echo
+echo "$blu > $cyn Building version-control ... $white"
+echo
+mvn -f ../../version-control/ clean deploy
 echo
 echo "$blu > $cyn Building api-gateway ... $white"
 echo
