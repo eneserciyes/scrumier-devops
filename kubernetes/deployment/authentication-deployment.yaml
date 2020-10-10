@@ -4,7 +4,6 @@ metadata:
   labels:
     app: authentication
   name: authentication
-  namespace: default
 spec:
   replicas: 1
   minReadySeconds: 45
