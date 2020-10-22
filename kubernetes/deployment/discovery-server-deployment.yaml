@@ -21,31 +21,26 @@ spec:
         app: discovery-server
     spec:
       containers:
-      - image: ogedik/discovery-server:1.0.0
-        imagePullPolicy: Always
-        name: discovery-server
-        ports: #change
-          - name: liveness-port
-            containerPort: 8761
-        resources:
-          requests:
-            memory: 512Mi
-          limits:
-            memory: 1024Mi
-        readinessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
-        livenessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
+        - image: ogedik/discovery-server:1.0.0
+          imagePullPolicy: Always
+          name: discovery-server
+          ports: #change
+            - name: liveness-port
+              containerPort: 8761
+          readinessProbe:
+            httpGet:
+              path: /
+              port: liveness-port
+            failureThreshold: 5
+            periodSeconds: 10
+            initialDelaySeconds: 60
+          livenessProbe:
+            httpGet:
+              path: /
+              port: liveness-port
+            failureThreshold: 5
+            periodSeconds: 10
+            initialDelaySeconds: 60
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 ---

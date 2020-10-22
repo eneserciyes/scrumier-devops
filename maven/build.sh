@@ -46,4 +46,8 @@ echo "$blu > $cyn Building integration ... $white"
 echo
 mvn -f ../../integration/ clean package spring-boot:repackage
 echo
+echo "$blu > $cyn Building time-tracker ... $white"
+echo
+mvn -f ../../time-tracker/ clean package spring-boot:repackage
+echo
 echo "$blu > $grn Scrumier build process successfully completed! $white"

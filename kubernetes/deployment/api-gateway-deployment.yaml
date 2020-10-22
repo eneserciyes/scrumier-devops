@@ -21,42 +21,42 @@ spec:
         app: api-gateway
     spec:
       containers:
-      - image: ogedik/api-gateway:1.0.0
-        imagePullPolicy: Always
-        name: api-gateway
-        env:
-          - name: DISCOVERY_SERVER_HOST
-            valueFrom:
-              configMapKeyRef:
-                key: DISCOVERY_SERVER_HOST
-                name: scrumier-config
-          - name: DISCOVERY_SERVER_PORT
-            valueFrom:
-              configMapKeyRef:
-                key: DISCOVERY_SERVER_PORT
-                name: scrumier-config
-        ports: #change
-          - name: liveness-port
-            containerPort: 8090
-        resources:
-          requests:
-            memory: 512Mi
-          limits:
-            memory: 1024Mi
-        readinessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
-        livenessProbe:
-          httpGet:
-            path: /
-            port: liveness-port
-          failureThreshold: 5
-          periodSeconds: 10
-          initialDelaySeconds: 60
+        - image: ogedik/api-gateway:1.0.0
+          imagePullPolicy: Always
+          name: api-gateway
+          env:
+            - name: DISCOVERY_SERVER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: DISCOVERY_SERVER_HOST
+                  name: scrumier-config
+            - name: DISCOVERY_SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DISCOVERY_SERVER_PORT
+                  name: scrumier-config
+          ports: #change
+            - name: liveness-port
+              containerPort: 8090
+          resources:
+            requests:
+              memory: 512Mi
+            limits:
+              memory: 1024Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: liveness-port
+            failureThreshold: 5
+            periodSeconds: 10
+            initialDelaySeconds: 60
+          livenessProbe:
+            httpGet:
+              path: /
+              port: liveness-port
+            failureThreshold: 5
+            periodSeconds: 10
+            initialDelaySeconds: 60
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 

@@ -21,9 +21,9 @@ spec:
         app: ui
     spec:
       containers:
-      - image: ogedik/scrumier-ui:1.0.0
-        imagePullPolicy: Always
-        name: ui
+        - image: ogedik/scrumier-ui:1.0.0
+          imagePullPolicy: Always
+          name: ui
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 ---

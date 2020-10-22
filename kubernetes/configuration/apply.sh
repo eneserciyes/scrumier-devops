@@ -1,0 +1,1 @@
+kubectl apply -f scrumier-config.yaml,scrumier-secrets.yaml

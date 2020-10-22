@@ -9,7 +9,6 @@ kind: ConfigMap
 metadata:
   creationTimestamp: "2020-09-26T08:22:36Z"
   name: scrumier-config
-  namespace: dev
   resourceVersion: "2200178"
   selfLink: /api/v1/namespaces/default/configmaps/scrumier-config
   uid: 92f650f4-96c3-4df6-82db-531714a53558

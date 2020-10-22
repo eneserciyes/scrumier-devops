@@ -21,48 +21,43 @@ spec:
         app: authentication
     spec:
       containers:
-      - image: ogedik/authentication:1.0.0
-        imagePullPolicy: Always
-        name: authentication
-        env:
-          - name: DATABASE_HOST
-            valueFrom:
-              configMapKeyRef:
-                key: DATABASE_HOST
-                name: scrumier-config
-          - name: DATABASE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: DATABASE_PASSWORD
-                name: scrumier-secrets
-          - name: DATABASE_PORT
-            valueFrom:
-              configMapKeyRef:
-                key: DATABASE_PORT
-                name: scrumier-config
-          - name: DATABASE_USERNAME
-            valueFrom:
-              configMapKeyRef:
-                key: DATABASE_USERNAME
-                name: scrumier-config
-          - name: DISCOVERY_SERVER_HOST
-            valueFrom:
-              configMapKeyRef:
-                key: DISCOVERY_SERVER_HOST
-                name: scrumier-config
-          - name: DISCOVERY_SERVER_PORT
-            valueFrom:
-              configMapKeyRef:
-                key: DISCOVERY_SERVER_PORT
-                name: scrumier-config
-        ports: #change
-          - name: liveness-port
-            containerPort: 8091
-        resources:
-          requests:
-            memory: 512Mi
-          limits:
-            memory: 1024Mi
+        - image: ogedik/authentication:1.0.0
+          imagePullPolicy: Always
+          name: authentication
+          env:
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_HOST
+                  name: scrumier-config
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: scrumier-secrets
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_PORT
+                  name: scrumier-config
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_USERNAME
+                  name: scrumier-config
+            - name: DISCOVERY_SERVER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: DISCOVERY_SERVER_HOST
+                  name: scrumier-config
+            - name: DISCOVERY_SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DISCOVERY_SERVER_PORT
+                  name: scrumier-config
+          ports: #change
+            - name: liveness-port
+              containerPort: 8091
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 
