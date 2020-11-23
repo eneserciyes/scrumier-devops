@@ -21,7 +21,7 @@ spec:
         app: time-tracker
     spec:
       containers:
-        - image: ogedik/discovery-server:1.0.0
+        - image: ogedik/time-tracker:1.0.0
           imagePullPolicy: Always
           name: discovery-server
           ports: #change
@@ -49,13 +49,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: discovery-server
-  name: discovery-server
+    app: time-tracker
+  name: time-tracker
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - name: "8761"
-      port: 8761
-      targetPort: 8761
+    - name: "8095"
+      port: 8095
+      targetPort: 8095
   selector:
-    app: discovery-server
+    app: time-tracker
